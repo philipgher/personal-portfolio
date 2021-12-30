@@ -5,8 +5,8 @@ import styles from './Background.module.scss';
 const sin = (value) => { return (Math.sin(value) + 1) / 2; };
 
 const Cloud = ({ tick, driftBy }) => {
-  const [sizeX] = useState(Math.random() * 600 + 300);
-  const [sizeY] = useState(Math.random() * 600 + 300);
+  const [sizeX] = useState(Math.random() * 600 + 400);
+  const [sizeY] = useState(Math.random() * 600 + 400);
   const [posX] = useState(Math.random() * 110 - 20);
   const [posY] = useState(Math.random() * 110 - 20);
   const [scaleOffset] = useState(Math.random() * 15);
@@ -59,10 +59,10 @@ const Background = () => {
     <div className={styles.container}>
       <Cloud tick={tick} driftBy={0.2} />
       <Cloud tick={tick} driftBy={0.8} />
-      <Cloud tick={tick} driftBy={1.2} />
+      {/* <Cloud tick={tick} driftBy={1.2} />
       <Cloud tick={tick} driftBy={1.6} />
       <Cloud tick={tick} driftBy={2.0} />
-      <Cloud tick={tick} driftBy={2.4} />
+      <Cloud tick={tick} driftBy={2.4} /> */}
     </div>
   );
 };

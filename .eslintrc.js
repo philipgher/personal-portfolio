@@ -18,11 +18,12 @@ module.exports = {
     'react',
   ],
   rules: {
+    'no-console': ['error', { allow: ['warn', 'error'] }],
+    'arrow-body-style': ['error', 'always'],
     'react/function-component-definition': ['error', {
       namedComponents: 'arrow-function',
       unnamedComponents: 'arrow-function',
     }],
-    'arrow-body-style': ['error', 'always'],
     'react/jsx-curly-brace-presence': ['error', { props: 'never', children: 'always' }],
   },
 };

@@ -1,4 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {
+  useCallback, useEffect, useRef, useState,
+} from 'react';
 import PropTypes from 'prop-types';
 import styles from './Background.module.scss';
 
@@ -44,10 +46,37 @@ Cloud.propTypes = {
 };
 
 const Background = () => {
+  const isAnimationCancelled = useRef(false);
+  const frameDropCounter = useRef(0);
+  const prevTime = useRef(Date.now());
+
   const [tick, setTick] = useState(0);
 
   const ticker = useCallback(() => {
-    setTick((prevTick) => { return prevTick + 0.001; });
+    if (isAnimationCancelled.current === true) {
+      return;
+    }
+
+    const timeElapsed = Date.now() - prevTime.current;
+
+    if (timeElapsed > 200) {
+      frameDropCounter.current += 1;
+
+      if (frameDropCounter.current > 5) {
+        isAnimationCancelled.current = true;
+        console.warn('Background cloud animation got cancelled due to 5 framedrops');
+      }
+    }
+
+    if (timeElapsed > 1000) {
+      isAnimationCancelled.current = true;
+      console.warn('Background cloud animation got cancelled due to 1 long framedrop');
+    }
+
+    prevTime.current = Date.now();
+
+    setTick((prevTick) => { return prevTick + 0.002; });
+
     requestAnimationFrame(ticker);
   }, []);
 
@@ -59,10 +88,6 @@ const Background = () => {
     <div className={styles.container}>
       <Cloud tick={tick} driftBy={0.2} />
       <Cloud tick={tick} driftBy={0.8} />
-      {/* <Cloud tick={tick} driftBy={1.2} />
-      <Cloud tick={tick} driftBy={1.6} />
-      <Cloud tick={tick} driftBy={2.0} />
-      <Cloud tick={tick} driftBy={2.4} /> */}
     </div>
   );
 };

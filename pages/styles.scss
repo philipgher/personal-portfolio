@@ -10,7 +10,7 @@
 
 body {
 	color: rgba(243, 193, 101, 0.7);
-	padding: 20px;
+	padding: calc(10px + 3vh) calc(10px + 2vw);
 	margin: 0;
 }
 
@@ -71,35 +71,16 @@ p, span, div {
 
 .content-wrapper {
 	display: flex;
-	overflow: hidden;
-	transition: transform 300ms ease-in-out;
-}
-
-.content-section {
 	position: relative;
 	text-transform: uppercase;
-	min-width: 100vw;
+}
 
-	& h1 {
-		// Compensate for off typeface margins
-		margin-left: -0.66rem;
-		margin-bottom: -0.66rem;
-	}
-
-	.notification {
-		opacity: 0;
-		animation: fadein 200ms ease-out forwards;
-		position: absolute;
-		top: -2.5rem;
-		animation-delay: 5s;
-	}
-
-	.main {
-		font-size: 10rem;
-		line-height: 8rem;
-		letter-spacing: -0.5rem;
-		margin-bottom: 1rem;
-	}
+.main {
+	font-size: 10rem;
+	line-height: 8rem;
+	letter-spacing: -0.5rem;
+	// Compensate for off typeface margins
+	margin-left: -0.73rem;
 }
 
 .subtext {
@@ -141,5 +122,35 @@ p, span, div {
 @keyframes fadein {
 	to {
 		opacity: 1;
+	}
+}
+
+
+@media screen and (max-width: 1050px) {
+	.main {
+		font-size: 8rem;
+		line-height: 6.4rem;
+		letter-spacing: -0.4rem;
+		// Compensate for off typeface margins
+		margin-left: -0.66rem;
+	}
+
+	.subtext {
+		font-size: 0.88rem;
+
+		span {
+			padding: 1.6px 6.4px;
+			line-height: 1.15rem;
+		}
+	}
+}
+
+@media screen and (max-width: 840px) {
+	.main {
+		font-size: 15vw;
+		line-height: 12.01vw;
+		letter-spacing: -0.9375vw;
+		// Compensate for off typeface margins
+		margin-left: -1.2375vw;
 	}
 }

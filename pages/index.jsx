@@ -1,5 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
+
 import Header from '../components/Header';
 import Background from '../components/Background';
 
@@ -17,11 +18,7 @@ const HomePage = () => {
       <Header />
 
       <div className="content-wrapper">
-        <div className="content-section">
-          <div className="notification">{'Mainly a...'}</div>
-          <h1 className="main">{'Frontend Developer'}</h1>
-          {/* <h3>{'React - ThreeJS - BabylonJS - PixiJS - WebXR'}</h3> */}
-        </div>
+        <h1 className="main">{'Frontend Developer'}</h1>
       </div>
 
       <div className="subtext">

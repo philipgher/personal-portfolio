@@ -6,15 +6,11 @@ import styles from './Background.module.scss';
 
 const sin = (value) => { return (Math.sin(value) + 1) / 2; };
 
-const Cloud = ({ tick, driftBy }) => {
-  const [sizeX] = useState(Math.random() * 600 + 400);
-  const [sizeY] = useState(Math.random() * 600 + 400);
-  const [posX] = useState(Math.random() * 110 - 20);
-  const [posY] = useState(Math.random() * 110 - 20);
-  const [scaleOffset] = useState(Math.random() * 15);
-
-  const baseFreq = 0.001 + sin((tick * driftBy) / 10) * 0.02;
-  const scale = sin(tick * driftBy * scaleOffset) * 300 + 100;
+const Cloud = ({ tick }) => {
+  const [sizeX] = useState(Math.random() * 600 + 300);
+  const [sizeY] = useState(Math.random() * 600 + 300);
+  const [posX] = useState(Math.random() * 70 - 15);
+  const [posY] = useState(Math.random() * 70 - 15);
 
   return (
     <div
@@ -25,24 +21,18 @@ const Cloud = ({ tick, driftBy }) => {
         style={{
           top: `calc(-200vh + ${posY}vh)`,
           left: `calc(-200vw + ${posX}vw)`,
+          transform: `translate3d(${sin(tick / 10) + 0.3}, ${sin(tick / 10 + Math.PI)}, 0)`,
           width: `${sizeX}px`,
           height: `${sizeY}px`,
-          boxShadow: `200vw 200vh ${(sizeX + sizeY) / 4}px 0px #fff`,
+          boxShadow: `200vw 200vh ${(sizeX + sizeY) / 4}px 0px white`,
         }}
       />
-      <svg width="0" height="0">
-        <filter id="filter">
-          <feTurbulence type="fractalNoise" baseFrequency={baseFreq} numOctaves="10" />
-          <feDisplacementMap in="SourceGraphic" scale={scale} />
-        </filter>
-      </svg>
     </div>
   );
 };
 
 Cloud.propTypes = {
   tick: PropTypes.number.isRequired,
-  driftBy: PropTypes.number.isRequired,
 };
 
 const Background = () => {
@@ -50,7 +40,7 @@ const Background = () => {
   const frameDropCounter = useRef(0);
   const prevTime = useRef(Date.now());
 
-  const [tick, setTick] = useState(0);
+  const [tick, setTick] = useState(Math.random() * (Math.PI * 2));
 
   const ticker = useCallback(() => {
     if (isAnimationCancelled.current === true) {
@@ -75,7 +65,7 @@ const Background = () => {
 
     prevTime.current = Date.now();
 
-    setTick((prevTick) => { return prevTick + 0.002; });
+    setTick((prevTick) => { return prevTick + 0.001; });
 
     requestAnimationFrame(ticker);
   }, []);
@@ -84,10 +74,39 @@ const Background = () => {
     ticker();
   }, []);
 
+  const baseFreq = 0.01 + sin(tick / 10) * 0.05;
+  const scale = sin(tick) * 300 + 150;
+
   return (
-    <div className={styles.container}>
-      <Cloud tick={tick} driftBy={0.2} />
-      <Cloud tick={tick} driftBy={0.8} />
+    <div className={styles.container} style={{ '--h': (tick * 50) % 360 }}>
+      <Cloud tick={tick} />
+      <Cloud tick={tick} />
+      <svg width="0" height="0">
+        <filter id="filter">
+          <feTurbulence type="fractalNoise" baseFrequency={baseFreq} numOctaves="4" />
+          <feDisplacementMap in="SourceGraphic" scale={scale} />
+          {/* <feConvolveMatrix
+            order="3"
+            kernelMatrix="-1 2 -1
+                          -1 1 -1
+                          -1 2 -1"
+          /> */}
+          {/* <feConvolveMatrix
+            order="5"
+            kernelMatrix="
+                      1  1   1  1  1
+                      1 -2  -2 -2  1
+                      1 -2  .1 -2  1
+                      1 -2  -2 -2  1
+                      1  1   1  1  1"
+          /> */}
+          {/* <feColorMatrix
+            in="SourceGraphic"
+            type="hueRotate"
+            values="180"
+          /> */}
+        </filter>
+      </svg>
     </div>
   );
 };

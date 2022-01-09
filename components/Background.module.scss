@@ -4,11 +4,12 @@
     //     rgb(15, 216, 223),
     //     rgb(24, 177, 238),
     // );
-    background: linear-gradient(
-        0.5turn,
-        hsl(calc(50 + var(--h)), 87%, 47%),
-        hsl(var(--h), 86%, 51%),
-    );
+    // background: linear-gradient(
+    //     0.5turn,
+    //     hsl(var(--hUpper), 87%, 47%),
+    //     hsl(var(--hLower), 86%, 51%),
+    // );
+    background-color: black;
     position: fixed;
     top: 0;
     left: 0;

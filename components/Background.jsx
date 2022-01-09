@@ -78,7 +78,7 @@ const Background = () => {
   const scale = sin(tick) * 300 + 150;
 
   return (
-    <div className={styles.container} style={{ '--h': (tick * 50) % 360 }}>
+    <div className={styles.container} style={{ '--hUpper': sin(tick) * 40, '--hLower': sin(tick + 0.5 * 40) }}>
       <Cloud tick={tick} />
       <Cloud tick={tick} />
       <svg width="0" height="0">

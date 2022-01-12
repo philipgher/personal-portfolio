@@ -10,7 +10,7 @@
 
 body {
 	color: rgba(243, 193, 101, 0.7);
-	padding: calc(10px + 3vh) calc(10px + 2vw);
+	padding: calc(10px + 3vh) calc(5px + 2vw);
 	margin: 0;
 }
 
@@ -57,12 +57,12 @@ p, span, div {
 
 .header {
 	position: relative;
-	font-size: 0.5rem;
-	line-height: 0.9rem;
-	margin-bottom: calc(1rem + 10vh);
-	display: flex;
 	width: 100%;
+	display: flex;
 	justify-content: space-between;
+	font-size: 0.5rem;
+	line-height: 1rem;
+	margin-bottom: calc(1rem + 10vh);
 }
 
 .link {
@@ -147,10 +147,19 @@ p, span, div {
 
 @media screen and (max-width: 840px) {
 	.main {
-		font-size: 15vw;
-		line-height: 12.01vw;
-		letter-spacing: -0.9375vw;
+		font-size: 52px;
+		line-height: 40px;
+		letter-spacing: -1px;
 		// Compensate for off typeface margins
 		margin-left: -1.2375vw;
+	}
+
+	.subtext {
+		font-size: 0.75rem;
+
+		span {
+			padding: 2px 6.2px;
+			line-height: 1.12rem;
+		}
 	}
 }

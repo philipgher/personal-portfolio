@@ -6,9 +6,9 @@ import styles from './Background.module.scss';
 
 const sin = (value) => { return (Math.sin(value) + 1) / 2; };
 
-const Cloud = ({ tick }) => {
-  const [sizeX] = useState(Math.random() * 600 + 300);
-  const [sizeY] = useState(Math.random() * 600 + 300);
+const Cloud = ({ tick, windowX, windowY }) => {
+  const [sizeX] = useState(Math.random() * (windowX / 2.5) + (windowX / 4));
+  const [sizeY] = useState(Math.random() * (windowY / 2.5) + (windowY / 4));
   const [posX] = useState(Math.random() * 70 - 15);
   const [posY] = useState(Math.random() * 70 - 15);
 
@@ -33,6 +33,8 @@ const Cloud = ({ tick }) => {
 
 Cloud.propTypes = {
   tick: PropTypes.number.isRequired,
+  windowX: PropTypes.number.isRequired,
+  windowY: PropTypes.number.isRequired,
 };
 
 const Background = () => {
@@ -41,6 +43,9 @@ const Background = () => {
   const prevTime = useRef(Date.now());
 
   const [tick, setTick] = useState(Math.random() * (Math.PI * 2));
+
+  const [windowX, setWindowX] = useState(null);
+  const [windowY, setWindowY] = useState(null);
 
   const ticker = useCallback(() => {
     if (isAnimationCancelled.current === true) {
@@ -71,40 +76,31 @@ const Background = () => {
   }, []);
 
   useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setWindowX(window.innerWidth);
+      setWindowY(window.innerHeight);
+    }
+
     ticker();
   }, []);
 
   const baseFreq = 0.01 + sin(tick / 10) * 0.05;
+  // const baseFreq = 0.01;
   const scale = sin(tick) * 300 + 150;
+  // const scale = 500;
+
+  if (!windowX && !windowY) {
+    return null;
+  }
 
   return (
     <div className={styles.container} style={{ '--hUpper': sin(tick) * 40, '--hLower': sin(tick + 0.5 * 40) }}>
-      <Cloud tick={tick} />
-      <Cloud tick={tick} />
+      <Cloud tick={tick} windowX={windowX} windowY={windowY} />
+      <Cloud tick={tick} windowX={windowX} windowY={windowY} />
       <svg width="0" height="0">
         <filter id="filter">
           <feTurbulence type="fractalNoise" baseFrequency={baseFreq} numOctaves="4" />
           <feDisplacementMap in="SourceGraphic" scale={scale} />
-          {/* <feConvolveMatrix
-            order="3"
-            kernelMatrix="-1 2 -1
-                          -1 1 -1
-                          -1 2 -1"
-          /> */}
-          {/* <feConvolveMatrix
-            order="5"
-            kernelMatrix="
-                      1  1   1  1  1
-                      1 -2  -2 -2  1
-                      1 -2  .1 -2  1
-                      1 -2  -2 -2  1
-                      1  1   1  1  1"
-          /> */}
-          {/* <feColorMatrix
-            in="SourceGraphic"
-            type="hueRotate"
-            values="180"
-          /> */}
         </filter>
       </svg>
     </div>
